@@ -53,10 +53,11 @@ $conn->close();
             flex: 1 1 45%; /* Rugalmas szélesség, minimum 45% */
             min-width: 300px; /* Minimum szélesség kis képernyőkön */
             margin: 10px;
+            height: 600px; /* Nagyobb magasság a grafikonoknak */
         }
         canvas {
             width: 100% !important;
-            height: auto !important;
+            height: 100% !important;
         }
     </style>
 </head>
