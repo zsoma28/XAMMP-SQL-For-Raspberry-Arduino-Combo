@@ -40,17 +40,40 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adatok megjelenítése</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap; /* Ha kicsi a képernyő, akkor alákerülnek */
+            justify-content: space-around;
+            width: 100%;
+            max-width: 1600px; /* Maximális szélesség, hogy ne legyen túl nagy */
+            margin: 0 auto; /* Középre igazítás */
+        }
+        .chart-wrapper {
+            flex: 1 1 45%; /* Rugalmas szélesség, minimum 45% */
+            min-width: 300px; /* Minimum szélesség kis képernyőkön */
+            margin: 10px;
+        }
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>
 </head>
 <body>
     <h1>Adatok grafikonon</h1>
-    <canvas id="temperatureChart" width="800" height="400"></canvas>
-    <canvas id="humidity" width="800" height="400"></canvas>
-
+    <div class="chart-container">
+        <div class="chart-wrapper">
+            <canvas id="temperatureChart"></canvas>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="humidity"></canvas>
+        </div>
+    </div>
     <script>
         const timestamps = <?php echo json_encode($timestamps); ?>;
         const temperatures = <?php echo json_encode($temperatures); ?>;
         const humidity = <?php echo json_encode($humidity); ?>;
-
         // Hőmérséklet grafikon
         new Chart(document.getElementById('temperatureChart'), {
             type: 'line',
@@ -66,6 +89,7 @@ $conn->close();
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false, // Engedélyezi a méretarány változtatását
                 scales: {
                     x: {
                         title: {
@@ -82,7 +106,6 @@ $conn->close();
                 }
             }
         });
-
         // Páratartalom grafikon
         new Chart(document.getElementById('humidity'), {
             type: 'line',
@@ -98,6 +121,7 @@ $conn->close();
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false, // Engedélyezi a méretarány változtatását
                 scales: {
                     x: {
                         title: {
@@ -111,7 +135,7 @@ $conn->close();
                             text: 'Páratartalom'
                         },
                         min: 0, // Alsó határ
-                        max: 200  // Felső határ
+                        max: 200 // Felső határ
                     }
                 }
             }
